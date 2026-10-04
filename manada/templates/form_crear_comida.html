@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    
+    <style>
+        body{
+            font-family: Arial;
+        }
+
+        .error-control{
+            border: 1px solid red;
+        }
+
+        label.error{
+            color: red;
+            width: 200px;
+            font-size: 0.8em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+<script>
+
+    $(function() 
+    {
+      $("#formulario").validate({
+           rules: {
+                  email: {
+                        marca: "required",
+                        nombre: "required",
+                        tamanno: "required",
+                        categoria: "required",
+                  }   
+                  
+              }, //rules
+          messages: {
+              marca: {
+                  required: 'Ingrese marca de la comida',
+              },
+              nombre: {
+                  required: 'Ingrese nombre de la comida',
+              },
+              tamanno:{
+                  required: 'Ingrese tamaño de la comida',
+              },
+              categoria:{
+                  required: 'Seleccione una categoria',
+              },
+          }//messages
+      }); //$('#mi-formulario').validate
+  }); //function
+
+
+</script>
+    <title>Crear Vehiculo</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Creando Vehiculos</h2>
+
+        <div class="row">
+        {% if user.is_authenticated %}
+            <form method="POST" action="#" id="formulario">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ comida_form.marca.label }}
+                    {{ comida_form.marca }}
+                </div>
+
+                <div class="form-group">
+                    {{ comida_form.nombre.label }}
+                    {{ comida_form.nombre }}
+                </div>
+
+                <div class="form-group">
+                    {{ comida_form.tamanno.label }}
+                    {{ comida_form.tamanno }}
+                </div>
+
+                <div class="form-group">
+                    {{ comida_form.categoria.label }}
+                    {{ comida_form.categoria }}
+                </div>
+                <br><br>
+                <input type="submit" class="btn btn-primary" value="Enviar">
+                <input type="reset" class="btn btn-danger" value="Limpiar">
+            </form>
+        {% else %}
+            <br><br><br>
+            <h3 style="color: red; text-align: center;">No tiene permisos para Agregar Vehiculos</h3>
+        {% endif %}
+        </div>
+    </div>
+</body>
+</html>

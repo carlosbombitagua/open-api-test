@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <style>
+        body{
+            font-family: Arial;
+        }
+
+        .error-control{
+            border: 1px solid red;
+        }
+
+        label.error{
+            color: red;
+            width: 200px;
+            font-size: 0.8em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+<script>
+
+    $(function() 
+    {
+      $("#formulario").validate({
+           rules: {
+                  email: {
+                        marca: "required",
+                        nombre: "required",
+                        tamanno: "required",
+                        categoria: "required",
+                  }   
+                  
+              }, //rules
+          messages: {
+              marca: {
+                  required: 'Ingrese marca de la comida ',
+              },
+              nombre: {
+                  required: 'Ingrese nombre de la comida',
+              },
+              tamanno:{
+                  required: 'Ingrese tamaño de la comida',
+              },
+              categoria:{
+                  required: 'Seleccione una categoria',
+              },
+          }//messages
+      }); //$('#mi-formulario').validate
+  }); //function
+
+
+</script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Modificando Comidas</h2>
+
+    <form method="POST" action="#" id="formilario">
+        {% csrf_token %}
+        <div class="form-group">
+            {{form.marca.label}}
+            {{form.marca}}
+        </div>
+
+        <div class="form-group">
+            {{form.nombre.label}}
+            {{form.nombre}}
+        </div>
+
+        <div class="form-group">
+            {{form.tamanno.label}}
+            {{form.tamanno}}
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Enviar">
+        <a href="{% url 'mostrar' %}" class="btn btn-succes">Mostrar</a>
+    </form>
+    </div>
+</body>
+</html>

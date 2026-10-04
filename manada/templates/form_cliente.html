@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <style>
+        body{
+            font-family: Arial;
+        }
+
+        .error-control{
+            border: 1px solid red;
+        }
+
+        label.error{
+            color: red;
+            width: 200px;
+            font-size: 0.8em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+<script>
+$(function() 
+{
+  $("#formulario").validate({
+        rules: {
+                email: {
+                    rut: "required",
+                    nombre: "required",
+                    gmail: "required",
+                    telefono: "required",
+                    direccion: "required",
+                    usuario: "required"
+                }   
+                
+            }, //rules
+        messages: {
+            rut: {
+                required: 'Ingrese su rut ',
+            },
+            nombre: {
+                required: 'Ingrese su nombre',
+            },
+            gmail: {
+                required: 'Ingrese su gmail',
+            },
+            telefono: {
+                required: 'Ingrese su telefono',
+            },
+            direccion: {
+                required: 'Ingrese su direccion',
+            },
+            usuario: {
+                required: 'Ingrese su usuario',
+            }
+        }//messages
+    }); //$('#mi-formulario').validate
+}); //function
+</script>
+    <tittle>Crear Cliente</tittle>
+</head>
+<body>
+    <div class="container">
+        <h2>Creando Clientes</h2>
+
+        <div class="row">
+        {% if user.is_authenticated %}
+            <form method="POST" action="#" id="formulario">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ cliente_form.rut.label }}
+                    {{ cliente_form.rut }}
+                </div>
+    
+                <div class="form-group">
+                    {{ cliente_form.nombre.label }}
+                    {{ cliente_form.nombre }}
+                </div>
+    
+                <div class="form-group">
+                    {{ cliente_form.gmail.label }}
+                    {{ cliente_form.gmail }}
+                </div>
+                    
+                <div class="form-group">
+                    {{ cliente_form.telefono.label }}
+                    {{ cliente_form.telefono }}
+                </div>
+
+                <div class="form-group">
+                    {{ cliente_form.direccion.label }}
+                    {{ cliente_form.direccion }}
+                </div>
+
+                <div class="form-group">
+                    {{ cliente_form.usuario.label }}
+                    {{ cliente_form.usuario }}
+                </div>
+
+                <br><br>
+                <input type="submit" class="btn btn-primary" value="Enviar">
+                <input type="reset" class="btn btn-danger" value="Limpiar">
+            </form>
+        {% else %}
+            <br><br><br>
+            <h3 style="color: red; text-align: center;">No tiene permisos para Agregar Vehiculos</h3>
+        {% endif %}
+        </div>
+    </div>
+</body>
+</html>

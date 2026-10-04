@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: API Empmanada
+  version: 1.0.0
+  description: API de clientes de Manada
+paths:
+  /api/demo/saludo:
+    get:
+      operationId: demo_saludo_retrieve
+      description: |-
+        Endpoint de prueba para verificar que la documentación OpenAPI se genera sola.
+
+        ## Qué hace
+        Devuelve un saludo personalizado junto con la fecha y hora del servidor.
+
+        ## Reglas
+        - El parámetro `nombre` es **opcional**; si se omite se usa `mundo`.
+        - El nombre no puede superar los **50 caracteres**.
+        - La fecha se devuelve en formato ISO 8601 (UTC).
+
+        ## Ejemplo de uso
+        ```
+        GET /api/demo/saludo?nombre=Italo
+        ```
+
+        > Este endpoint es solo de prueba y no accede a la base de datos.
+      summary: Endpoint demo de saludo
+      parameters:
+      - in: query
+        name: nombre
+        schema:
+          type: string
+          default: mundo
+        description: Nombre a saludar (máx. 50 caracteres)
+        examples:
+          NombreSimple:
+            value: Italo
+            summary: Nombre simple
+          NombreCompuesto:
+            value: Ana María
+            summary: Nombre compuesto
+      tags:
+      - Demo
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoSaludo'
+              examples:
+                RespuestaExitosa:
+                  value:
+                    mensaje: Hola Italo
+                    fecha: '2026-10-04T22:40:25.686104Z'
+                  summary: Respuesta exitosa
+          description: Saludo generado correctamente
+        '400':
+          description: El nombre supera los 50 caracteres
+  /api/lista_clientes:
+    get:
+      operationId: lista_clientes_list
+      summary: Lista los clientes
+      tags:
+      - lista_clientes
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+          description: ''
+    post:
+      operationId: lista_clientes_create
+      summary: Crea un cliente
+      tags:
+      - lista_clientes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+          description: ''
+        '400':
+          description: No response body
+components:
+  schemas:
+    Cliente:
+      type: object
+      properties:
+        rut:
+          type: string
+          maxLength: 13
+        nombre:
+          type: string
+          maxLength: 40
+        gmail:
+          type: string
+          maxLength: 40
+        telefono:
+          type: string
+          maxLength: 10
+        direccion:
+          type: string
+          maxLength: 40
+        usuario:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          title: Id usuario
+      required:
+      - direccion
+      - gmail
+      - nombre
+      - rut
+      - telefono
+      - usuario
+    DemoSaludo:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          description: Saludo generado para el nombre indicado
+        fecha:
+          type: string
+          format: date-time
+          description: Fecha y hora del servidor
+      required:
+      - fecha
+      - mensaje
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
